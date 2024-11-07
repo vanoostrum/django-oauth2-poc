@@ -8,6 +8,8 @@ services:
       - ./:/app
     environment:
       PGSERVICEFILE: /app/.pg_service.conf
+#    secrets:
+#      - rsa-private-key
   db:
     image: postgres
     environment:
@@ -16,11 +18,11 @@ services:
       - djangotest_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-  adminer:
-    image: adminer
-    ports:
-      - 8081:8080
 
 volumes:
   djangotest_data:
     external: true
+
+#secrets:
+#  rsa-private-key:
+#    file: ./oidc.key

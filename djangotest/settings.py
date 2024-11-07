@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users'
+    'users',
+    'oauth2_provider'
 ]
 
 MIDDLEWARE = [
@@ -131,5 +131,21 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom Settings
+# private_key_path = '/var/run/secrets/rsa-private-key'
+# print(f"read private key {private_key_path}")
+# with open(private_key_path) as file:
+#     OIDC_RSA_PRIVATE_KEY = file.read()
+
+
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/admin/login/'
+
+"""
+test client:
+
+client_id=DM7wnSHyQaJR43hZk2bvbYlNBCAsui2iNMiZsuBF
+client_secret=pbkdf2_sha256$870000$v6gdJVdcJkgH7vFCQHx44h$Sit/9TsJvcXlOyIHE5MkBPFGp1aM2PxeHJosfJk0jgQ=
+redirect_uri=https://localhost:8083/auth
+"""
+
+
