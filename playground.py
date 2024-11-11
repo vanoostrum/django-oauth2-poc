@@ -63,38 +63,7 @@ class PlaygroundTest(TestCase):
         }
 
         private_key = Ed25519PrivateKey.from_private_bytes(b64decode(f"{private_key_b64}=="))
-        encoded_token = jwt.encode(token, private_key, algorithm="EdDSA")
-
-        public_key = Ed25519PublicKey.from_public_bytes(b64decode(f"{public_key_b64}=="))
-        decoded_token = jwt.decode(encoded_token, public_key, algorithms=["EdDSA"])
-        print(f"{decoded_token=}")
-
-        return encoded_token
-
-    def test_token_authorization_code(self):
-        code = "JbpKGWY7HT9jrtEGrT3IKYdrEothjs"
-        headers = {
-            'Cache-Control': 'no-cache',
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-        data = {
-            'client_id': client_id,
-            'client_secret': client_secret,
-            'code': code,
-            'client_assertion_type': "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-            'client_assertion': self.test_client_token(),
-            'code_verifier': code_verifier,
-            'redirect_uri': redirect_uri,
-            'grant_type': 'authorization_code'
-        }
-
-        response = requests.post('http://localhost:8082/oauth/token/', data, headers=headers)
-        print(response.url)
-        print(response.text)
-        print(response.headers)
-
-        with open('test.html', 'w') as file:
-            file.write(response.text)
+        return jwt.encode(token, private_key, algorithm="EdDSA")
 
     def test_token_jwt_bearer(self):
         headers = {
@@ -108,12 +77,13 @@ class PlaygroundTest(TestCase):
         }
 
         response = requests.post('http://localhost:8082/oauth/token/', data, headers=headers)
-        print(response.url)
-        print(response.text)
-        print(response.headers)
-
         with open('test.html', 'w') as file:
             file.write(response.text)
+
+        access_token = response.json()['access_token']
+        public_key = Ed25519PublicKey.from_public_bytes(b64decode(f"{public_key_b64}=="))
+        decoded_token = jwt.decode(access_token, public_key, algorithms=["EdDSA"])
+        print(decoded_token)
 
     def test_gen_private_key(self):
         private_key = Ed25519PrivateKey.generate()
