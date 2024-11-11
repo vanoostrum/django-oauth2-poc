@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import json
+import logging
+import logging.config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -131,6 +134,17 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom Settings
+
+
+def setup_logger():
+    with (open(f"{BASE_DIR}/log-config.json")) as file:
+        log_config = json.loads("".join(file.readlines()))
+        logging.config.dictConfig(log_config)
+
+
+setup_logger()
+
+
 # private_key_path = '/var/run/secrets/rsa-private-key'
 # print(f"read private key {private_key_path}")
 # with open(private_key_path) as file:
@@ -139,6 +153,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/admin/login/'
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'users.Application'
+OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'users.AccessToken'
+OAUTH2_PROVIDER_ID_TOKEN_MODEL = 'users.IdToken'
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = 'users.RefreshToken'
+OAUTH2_PROVIDER_GRANT_MODEL = 'users.Grant'
+
 
 """
 test client:
@@ -149,3 +169,20 @@ redirect_uri=https://localhost:8083/auth
 """
 
 
+"""
+drop table auth_permission cascade;
+drop table auth_group cascade;
+drop table auth_group_permissions cascade;
+drop table django_migrations cascade;
+drop table django_content_type cascade;
+drop table django_session cascade;
+drop table django_admin_log cascade;
+drop table oauth2_provider_refreshtoken cascade;
+drop table oauth2_provider_idtoken cascade;
+drop table oauth2_provider_grant cascade;
+drop table oauth2_provider_accesstoken cascade;
+drop table users_user cascade;
+drop table users_user_groups cascade;
+drop table users_user_user_permissions cascade;
+drop table users_application cascade;
+"""

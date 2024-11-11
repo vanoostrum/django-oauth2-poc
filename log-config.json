@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "default": {
+      "()": "uvicorn.logging.DefaultFormatter",
+      "format": "%(asctime)s - %(levelname)s - %(message)s"
+    }
+  },
+  "handlers": {
+    "default": {
+      "formatter": "default",
+      "class": "logging.StreamHandler",
+      "stream": "ext://sys.stderr"
+    }
+  },
+  "loggers": {
+    "default": {
+      "level": "DEBUG",
+      "handlers": [
+        "default"
+      ],
+      "propagate": "no"
+    },
+    "root": {
+      "level": "DEBUG",
+      "handlers": [
+        "default"
+      ],
+      "propagate": "no"
+    }
+  },
+  "root": {
+    "level": "DEBUG",
+    "handlers": [
+      "default"
+    ],
+    "propagate": "no"
+  }
+}
