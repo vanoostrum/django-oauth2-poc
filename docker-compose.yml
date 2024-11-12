@@ -1,6 +1,6 @@
 services:
   djangotest:
-    image: envalue/djangotest
+    image: djangotest
     build: .
     ports:
       - "8082:8082"

@@ -17,13 +17,8 @@
             </li>
 
             <li>
-                <p><b>{% trans "Client type" %}</b></p>
-                <p>{{ application.client_type }}</p>
-            </li>
-
-            <li>
                 <p><b>{% trans "Authorization Grant Type" %}</b></p>
-                <p>{{ application.authorization_grant_type }}</p>
+                <input class="input-block-level" type="text" value="{{ application.authorization_grant_type }}" readonly>
             </li>
 
             <li>

@@ -13,13 +13,11 @@ class CustomApplicationRegistration(ApplicationRegistration):
             fields=(
                 "name",
                 "client_id",
-                "client_type",
                 "authorization_grant_type",
                 "public_key",
                 "redirect_uris",
                 "post_logout_redirect_uris",
-                "allowed_origins",
-                "algorithm",
+                "allowed_origins"
             ),
         )
 
@@ -34,12 +32,10 @@ class CustomApplicationUpdate(ApplicationUpdate):
             fields=(
                 "name",
                 "client_id",
-                "client_type",
                 "authorization_grant_type",
                 "public_key",
                 "redirect_uris",
                 "post_logout_redirect_uris",
-                "allowed_origins",
-                "algorithm",
+                "allowed_origins"
             ),
         )

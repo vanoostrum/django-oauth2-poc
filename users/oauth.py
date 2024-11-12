@@ -11,6 +11,7 @@ from oauthlib.oauth2.rfc6749.errors import InvalidRequestFatalError, InvalidToke
 import jwt
 from oauthlib.oauth2.rfc6749.grant_types.client_credentials import ClientCredentialsGrant
 import oauth2_provider.oauth2_validators
+from oauthlib.oauth2.rfc6749.tokens import random_token_generator
 
 from users.models import Application
 
@@ -73,7 +74,7 @@ class JwtBearerGrant(ClientCredentialsGrant):
         :type request: oauthlib.common.Request
         """
         oauth2_provider.oauth2_validators.GRANT_TYPE_MAPPING |= {
-            grant_type_jwt_bearer: (grant_type_jwt_bearer,)
+            grant_type_jwt_bearer: (Application.GRANT_JWT_BEARER,)
         }
 
         for validator in self.custom_validators.pre_token:
@@ -137,6 +138,9 @@ class CustomOAuthServer(Server):
             return jwt.encode(token, private_key, algorithm='EdDSA')
 
         self.jwt_bearer_grant = JwtBearerGrant(request_validator)
+
+        if refresh_token_generator is None:
+            refresh_token_generator = random_token_generator
 
         super().__init__(request_validator, token_expires_in,
                          generate_token, refresh_token_generator,
